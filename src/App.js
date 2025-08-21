@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ModeSelector from "./components/ModeSelector";
+import Game from "./components/Game";
+import phrases from "./data/phrases.json";
+import "./index.css";
 
 function App() {
+
+  const [mode, setMode] = useState(null);
+
+  const resetMode = () => setMode(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Yo Nunca</h1>
+
+      {!mode && <ModeSelector setMode={setMode} />}
+
+      {mode && (
+        <>
+          <Game mode={mode} phrases={phrases[mode]} />
+          <button className="back-button" onClick={resetMode}>
+            ← Volver a elegir modo
+          </button>
+        </>
+      )}
     </div>
   );
 }
