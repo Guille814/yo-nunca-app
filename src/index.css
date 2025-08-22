@@ -22,9 +22,11 @@
 }
 
 .back-top {
-  background: transparent; /* solo flecha visible */
+  background: transparent;
+  /* solo flecha visible */
   color: inherit;
-  padding: 4px 8px; /* mucho más pequeño */
+  padding: 4px 8px;
+  /* mucho más pequeño */
   font-size: 1.2rem;
   border: none;
   cursor: pointer;
@@ -231,6 +233,43 @@ button:hover {
   cursor: not-allowed;
 }
 
+.extra-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+.extra-modes button {
+  background-color: #6ee7b7;
+  color: #333;
+}
+
+.extra-modes button:last-child {
+  background-color: #34d399;
+}
+
+/* Subtítulo blanco para personalizado */
+.subtitle-white {
+  color: white;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Input más grande */
+.custom-input {
+  flex: 1;
+  padding: 14px;
+  /* más padding */
+  border-radius: 12px;
+  border: none;
+  font-size: 18px;
+  /* más grande */
+}
+
 
 /* Responsive */
 @media (max-width: 500px) {
@@ -242,30 +281,74 @@ button:hover {
   .game-buttons button,
   .custom-input-container button,
   .start-button {
-    width: 100%; /* solo estos botones ocupan todo el ancho */
+    width: 100%;
+    /* solo estos botones ocupan todo el ancho */
   }
 
   .game p {
     font-size: 1.3rem;
     min-height: 70px;
   }
+
   .back-top {
-  background: rgba(255, 255, 255, 0.2); /* fondo semitransparente */
-  color: inherit;
-  font-size: 1.2rem;
-  padding: 6px 10px; /* tamaño compacto */
-  border: none;
-  border-radius: 8px; /* redondeado */
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* sombra ligera */
-}
+    background: rgba(255, 255, 255, 0.2);
+    /* fondo semitransparente */
+    color: inherit;
+    font-size: 1.2rem;
+    padding: 6px 10px;
+    /* tamaño compacto */
+    border: none;
+    border-radius: 8px;
+    /* redondeado */
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* sombra ligera */
+  }
 
-.back-top:hover {
-  background: rgba(255, 255, 255, 0.35); /* más visible al pasar el ratón */
-  transform: scale(1.15);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* sombra más intensa */
-}
+  .back-top:hover {
+    background: rgba(255, 255, 255, 0.35);
+    /* más visible al pasar el ratón */
+    transform: scale(1.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* sombra más intensa */
+  }
+
+  .extra-modes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+  }
+
+  .extra-modes button {
+    background-color: #6ee7b7;
+    color: #333;
+  }
+
+  .extra-modes button:last-child {
+    background-color: #34d399;
+  }
+
+  /* Subtítulo blanco para personalizado */
+  .subtitle-white {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  /* Input más grande */
+  .custom-input {
+    flex: 1;
+    padding: 14px;
+    /* más padding */
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    /* más grande */
+  }
 
 }
-

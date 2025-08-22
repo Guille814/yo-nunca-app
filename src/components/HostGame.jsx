@@ -4,16 +4,15 @@ import { doc, updateDoc, onSnapshot, serverTimestamp, deleteDoc } from "firebase
 
 export default function HostGame({ partidaId }) {
   const [frases, setFrases] = useState([]);
-  const [current, setCurrent] = useState(null);
   const [remaining, setRemaining] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [current, setCurrent] = useState(null);
   const [showContinue, setShowContinue] = useState(false);
 
   useEffect(() => {
     if (!partidaId) return;
-
     const partidaRef = doc(db, "partidas", partidaId);
 
-    // Escuchamos cambios en la partida en tiempo real
     const unsubscribe = onSnapshot(partidaRef, (snapshot) => {
       const data = snapshot.data();
       if (!data) return;
@@ -21,7 +20,6 @@ export default function HostGame({ partidaId }) {
       setFrases(data.frases || []);
       setRemaining(data.frases || []);
 
-      // Lógica de "quieres seguir jugando"
       const ultima = data.ultimaFrase?.toDate();
       if (!ultima) return;
 
@@ -46,16 +44,25 @@ export default function HostGame({ partidaId }) {
       setCurrent("¡Se acabaron las frases! 🎉");
       return;
     }
+
     const randomIndex = Math.floor(Math.random() * remaining.length);
     const phrase = remaining[randomIndex];
+
+    if (current) setHistory((prev) => [...prev, current]);
     setCurrent(phrase);
     setRemaining((prev) => prev.filter((_, i) => i !== randomIndex));
 
     // Actualizamos la hora de la última frase en Firestore
     const partidaRef = doc(db, "partidas", partidaId);
-    await updateDoc(partidaRef, {
-      ultimaFrase: serverTimestamp()
-    });
+    await updateDoc(partidaRef, { ultimaFrase: serverTimestamp() });
+  };
+
+  const prevPhrase = () => {
+    if (history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory((prev) => prev.slice(0, -1));
+    if (current) setRemaining((prev) => [current, ...prev]);
+    setCurrent(last);
   };
 
   const handleContinue = async (seguir) => {
@@ -69,15 +76,23 @@ export default function HostGame({ partidaId }) {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: "20px", maxWidth: "400px", margin: "0 auto" }}>
       <p>{current || "Pulsa 'Siguiente frase' para empezar"}</p>
-      <button onClick={nextPhrase}>Siguiente frase</button>
+
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+        <button onClick={prevPhrase} disabled={history.length === 0} style={{ padding: "10px 20px", borderRadius: "8px", cursor: history.length === 0 ? "not-allowed" : "pointer" }}>
+          ← Anterior
+        </button>
+        <button onClick={nextPhrase} style={{ padding: "10px 20px", borderRadius: "8px", cursor: "pointer" }}>
+          Siguiente →
+        </button>
+      </div>
 
       {showContinue && (
         <div>
           <p>¿Quieres seguir jugando?</p>
-          <button onClick={() => handleContinue(true)}>Sí</button>
-          <button onClick={() => handleContinue(false)}>No</button>
+          <button onClick={() => handleContinue(true)} style={{ marginRight: "10px", padding: "8px 16px", borderRadius: "8px" }}>Sí</button>
+          <button onClick={() => handleContinue(false)} style={{ padding: "8px 16px", borderRadius: "8px" }}>No</button>
         </div>
       )}
     </div>

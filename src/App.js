@@ -61,6 +61,9 @@ function AppWrapper() {
     online: { bg: "linear-gradient(to bottom, #2575fc, #6a11cb)", text: "#fff" }
   };
 
+  // Mostrar el botón de volver en todos los modos que no sean la selección
+  const showBackButton = mode !== null;
+
   return (
     <div
       className="app"
@@ -69,32 +72,24 @@ function AppWrapper() {
         color: mode ? backgroundByMode[mode]?.text : "white"
       }}
     >
-      {/* Encabezado con Yo Nunca centrado */}
-      <div className="header">
-        {mode && mode !== "collect" && mode !== "online" && (
-          <button className="back-top" onClick={resetMode}>←</button>
-        )}
-        <h1>Yo Nunca</h1>
-        <div style={{ width: "32px" }}></div> {/* espaciador igual al ancho del botón */}
-      </div>
+      {/* Header único */}
+      {mode && (
+        <div className="header">
+          {showBackButton && (
+            <button className="back-top" onClick={resetMode}>←</button>
+          )}
+          <h1 style={{ flex: 1, textAlign: "center", margin: 0 }}>Yo Nunca</h1>
+          <div style={{ width: "32px" }}></div> {/* espaciador para centrar */}
+        </div>
+      )}
 
-
+      {/* Selección de modo */}
       {!mode && (
         <>
           <ModeSelector setMode={setMode} />
-          <div style={{ marginTop: "10px" }}>
-            <button
-              style={{ backgroundColor: "#6ee7b7", color: "#333" }}
-              onClick={() => setMode("collect")}
-            >
-              Modo Personalizado
-            </button>
-            <button
-              style={{ backgroundColor: "#34d399", color: "#333", marginTop: "10px" }}
-              onClick={() => setMode("online")}
-            >
-              Modo Online
-            </button>
+          <div className="extra-modes">
+            <button onClick={() => setMode("collect")}>Modo Personalizado</button>
+            <button onClick={() => setMode("online")}>Modo Online</button>
           </div>
         </>
       )}
@@ -102,7 +97,7 @@ function AppWrapper() {
       {/* Modo personalizado */}
       {mode === "collect" && (
         <>
-          <h2>Añade tus frases</h2>
+          <h2 className="subtitle-white">Añade tus frases</h2>
           <div className="custom-input-container" style={{ marginBottom: "15px" }}>
             <input
               type="text"
@@ -112,17 +107,12 @@ function AppWrapper() {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && inputValue.trim()) addCustomPhrase(inputValue);
               }}
-              style={{ padding: "10px", borderRadius: "10px", width: "100%", marginBottom: "10px" }}
+              className="custom-input"
             />
-            <button
-              onClick={() => { if (inputValue.trim()) addCustomPhrase(inputValue); }}
-              style={{ padding: "10px 20px", borderRadius: "10px" }}
-            >
+            <button onClick={() => { if (inputValue.trim()) addCustomPhrase(inputValue); }}>
               Añadir
             </button>
           </div>
-
-          <button className="back-button" onClick={resetMode}>← Volver a elegir modo</button>
           <button className="start-button" onClick={startCustomGame} disabled={customPhrases.length === 0}>
             Empezar Juego
           </button>
@@ -130,7 +120,7 @@ function AppWrapper() {
         </>
       )}
 
-      {/* Juego */}
+      {/* Juego normal/mix/hot/custom */}
       {mode && mode !== "collect" && mode !== "online" && (
         <Game phrases={getPhrasesForMode()} />
       )}
@@ -139,7 +129,6 @@ function AppWrapper() {
       {mode === "online" && !partidaId && (
         <HostOnline setPartidaId={setPartidaId} resetMode={resetMode} />
       )}
-
       {mode === "online" && partidaId && (
         <HostGame partidaId={partidaId} resetMode={resetMode} />
       )}

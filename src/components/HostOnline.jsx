@@ -8,9 +8,8 @@ export default function HostOnline({ setPartidaId, resetMode }) {
   const [inputPhrase, setInputPhrase] = useState("");
   const [frases, setFrases] = useState([]);
   const [started, setStarted] = useState(false);
-  const [localId, setLocalId] = useState(""); 
+  const [localId, setLocalId] = useState("");
 
-  // Escuchar cambios en Firestore
   useEffect(() => {
     if (!localId) return;
     const partidaRef = doc(db, "partidas", localId);
@@ -34,13 +33,10 @@ export default function HostOnline({ setPartidaId, resetMode }) {
   const addPhrase = async () => {
     const newPhrase = inputPhrase.trim();
     if (!newPhrase) return;
-
-    // Evitar frases repetidas
     if (frases.some(f => f.toLowerCase().trim() === newPhrase.toLowerCase())) {
       alert("Esa frase ya ha sido añadida");
       return;
     }
-
     const partidaRef = doc(db, "partidas", localId);
     await updateDoc(partidaRef, { frases: arrayUnion(newPhrase) });
     setInputPhrase("");
@@ -54,45 +50,78 @@ export default function HostOnline({ setPartidaId, resetMode }) {
 
   const startGame = () => {
     setStarted(true);
-    setPartidaId(localId); // Avisamos a App que host empieza la partida
+    setPartidaId(localId);
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "10px",
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    background: "transparent",
+    color: "#fff",
+  };
+
+  const buttonStyle = {
+    padding: "10px 20px",
+    borderRadius: "12px",
+    cursor: "pointer",
+    border: "none",
+    background: "#4f46e5",
+    color: "#fff",
+    fontWeight: "bold"
+  };
+
+  const smallButtonStyle = {
+    padding: "8px 12px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    border: "none",
+    background: "#10b981",
+    color: "#fff",
+    fontWeight: "bold",
+    marginLeft: "5px"
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "400px", margin: "0 auto", textAlign: "center" }}>
       {!localId && (
-        <button onClick={crearPartida} disabled={creating} style={{ padding: "12px 20px", borderRadius: "12px", cursor: "pointer" }}>
+        <button onClick={crearPartida} disabled={creating} style={buttonStyle}>
           {creating ? "Creando partida..." : "Crear partida online"}
         </button>
       )}
 
       {localId && !started && (
         <>
-          <div>
-            <p>Enlace de la partida:</p>
-            <input type="text" readOnly value={`${window.location.origin}/online/${localId}`} style={{ width: "100%", padding: "10px", borderRadius: "10px", marginBottom: "10px" }} />
-            <button onClick={copyLink} style={{ padding: "10px 20px", borderRadius: "10px", cursor: "pointer" }}>
-              {linkCopied ? "¡Copiado!" : "Copiar enlace"}
-            </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <label style={{ color: "#fff" }}>Enlace de la partida:</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <input type="text" readOnly value={`${window.location.origin}/online/${localId}`} style={inputStyle} />
+              <button onClick={copyLink} style={smallButtonStyle}>
+                {linkCopied ? "✓" : "📋"}
+              </button>
+            </div>
           </div>
 
-          <div>
-            <p>Añadir frases:</p>
-            <input
-              type="text"
-              placeholder="Escribe un 'Yo nunca...'"
-              value={inputPhrase}
-              onChange={(e) => setInputPhrase(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") addPhrase(); }}
-              style={{ width: "100%", padding: "10px", borderRadius: "10px", marginBottom: "10px" }}
-            />
-            <button onClick={addPhrase} style={{ padding: "10px 20px", borderRadius: "10px", cursor: "pointer" }}>Añadir frase</button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <label style={{ color: "#fff" }}>Añadir frases:</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <input
+                type="text"
+                placeholder="Escribe un 'Yo nunca...'"
+                value={inputPhrase}
+                onChange={(e) => setInputPhrase(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") addPhrase(); }}
+                style={inputStyle}
+              />
+              <button onClick={addPhrase} style={smallButtonStyle}>+</button>
+            </div>
           </div>
 
-          <button onClick={startGame} style={{ padding: "12px 20px", borderRadius: "12px", cursor: "pointer" }}>
+          <button onClick={startGame} style={buttonStyle}>
             Comenzar partida
           </button>
-
-          <button className="back-button" onClick={resetMode} style={{ marginTop: "20px" }}>← Volver a elegir modo</button>
         </>
       )}
     </div>
