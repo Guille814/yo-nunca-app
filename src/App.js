@@ -77,6 +77,12 @@ function App() {
               Añadir
             </button>
           </div>
+
+          {/* Botón de volver a elegir modo */}
+          <button className="back-button" onClick={resetMode}>
+            ← Volver a elegir modo
+          </button>
+
           <button
             className="start-button"
             onClick={startCustomGame}
