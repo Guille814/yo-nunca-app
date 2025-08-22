@@ -52,9 +52,32 @@ function AppWrapper() {
     return phrases[mode];
   };
 
+  // Fondos + colores según el modo
+  const backgroundByMode = {
+    normal: { bg: "linear-gradient(to bottom, #ffb347, #ffcc70)", text: "#222" },
+    hot: { bg: "linear-gradient(to bottom, #ff5e62, #ff9966)", text: "#fff" },
+    mix: { bg: "linear-gradient(to bottom, #6eff62, #a8ff78)", text: "#222" },
+    custom: { bg: "linear-gradient(to bottom, #6ee7b7, #34d399)", text: "#222" },
+    online: { bg: "linear-gradient(to bottom, #2575fc, #6a11cb)", text: "#fff" }
+  };
+
   return (
-    <div className="app">
-      <h1>Yo Nunca</h1>
+    <div
+      className="app"
+      style={{
+        background: mode ? backgroundByMode[mode]?.bg : "rgba(0,0,0,0.3)",
+        color: mode ? backgroundByMode[mode]?.text : "white"
+      }}
+    >
+      {/* Encabezado con Yo Nunca centrado */}
+      <div className="header">
+        {mode && mode !== "collect" && mode !== "online" && (
+          <button className="back-top" onClick={resetMode}>←</button>
+        )}
+        <h1>Yo Nunca</h1>
+        <div style={{ width: "32px" }}></div> {/* espaciador igual al ancho del botón */}
+      </div>
+
 
       {!mode && (
         <>
@@ -107,12 +130,9 @@ function AppWrapper() {
         </>
       )}
 
-      {/* Juego con frases cargadas */}
+      {/* Juego */}
       {mode && mode !== "collect" && mode !== "online" && (
-        <>
-          <Game phrases={getPhrasesForMode()} />
-          <button className="back-button" onClick={resetMode}>← Volver a elegir modo</button>
-        </>
+        <Game phrases={getPhrasesForMode()} />
       )}
 
       {/* Modo online */}

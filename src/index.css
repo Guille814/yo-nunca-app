@@ -5,18 +5,81 @@
   padding: 0;
 }
 
+/* Encabezado */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  text-align: center;
+  flex: 1;
+}
+
+.back-top {
+  background: transparent; /* solo flecha visible */
+  color: inherit;
+  padding: 4px 8px; /* mucho más pequeño */
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.back-top:hover {
+  transform: scale(1.1);
+}
+
+/* Botones de juego */
+.game-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.game-buttons button {
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.game-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+.game-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
 /* Contenedor completo */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom, #6a11cb, #2575fc);
-  color: white;
+  color: inherit;
 
   display: flex;
-  justify-content: center; /* centra horizontal */
-  align-items: center;     /* centra vertical */
-  overflow-x: hidden;      /* evita que nada empuje a los lados */
+  justify-content: center;
+  /* centra horizontal */
+  align-items: center;
+  /* centra vertical */
+  overflow-x: hidden;
+  /* evita que nada empuje a los lados */
 }
 
 /* Caja tipo app */
@@ -26,12 +89,14 @@ html, body {
   align-items: center;
   justify-content: center;
 
-  width: 100%;         /* siempre 100% en móvil */
-  max-width: 400px;    /* límite en escritorio */
+  width: 100%;
+  /* siempre 100% en móvil */
+  max-width: 400px;
+  /* límite en escritorio */
   padding: 30px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
@@ -60,17 +125,24 @@ button:hover {
 /* Contenedor de modos */
 .mode-selector {
   display: flex;
-  flex-direction: column; /* apilados */
-  gap: 15px; /* separación entre botones */
-  width: 100%; /* ocupa todo el ancho de la app */
-  max-width: 300px; /* ancho máximo en escritorio */
-  align-items: center; /* centra los botones horizontalmente */
+  flex-direction: column;
+  /* apilados */
+  gap: 15px;
+  /* separación entre botones */
+  width: 100%;
+  /* ocupa todo el ancho de la app */
+  max-width: 300px;
+  /* ancho máximo en escritorio */
+  align-items: center;
+  /* centra los botones horizontalmente */
 }
 
 /* Botones de modo */
 .mode-selector button {
-  width: 100%; /* fuerza que los botones ocupen todo el ancho del contenedor */
-  max-width: 300px; /* opcional: evita que sean demasiado grandes */
+  width: 100%;
+  /* fuerza que los botones ocupen todo el ancho del contenedor */
+  max-width: 300px;
+  /* opcional: evita que sean demasiado grandes */
 }
 
 
@@ -93,7 +165,7 @@ button:hover {
 
 /* Botón de volver */
 .back-button {
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
@@ -102,8 +174,10 @@ button:hover {
   font-size: 1.5rem;
   margin-bottom: 20px;
   min-height: 80px;
-  width: 100%;              /* ocupa siempre todo el ancho de la caja */
-  overflow-wrap: anywhere;  /* fuerza salto en palabras largas */
+  width: 100%;
+  /* ocupa siempre todo el ancho de la caja */
+  overflow-wrap: anywhere;
+  /* fuerza salto en palabras largas */
   white-space: normal;
   display: flex;
   align-items: center;
@@ -113,12 +187,15 @@ button:hover {
 
 .custom-input-container {
   display: flex;
-  gap: 10px;          /* separación entre input y botón */
-  margin-bottom: 20px; /* espacio debajo del input */
+  gap: 10px;
+  /* separación entre input y botón */
+  margin-bottom: 20px;
+  /* espacio debajo del input */
 }
 
 .custom-input-container input {
-  flex: 1;             /* ocupa el máximo espacio disponible */
+  flex: 1;
+  /* ocupa el máximo espacio disponible */
   padding: 10px;
   border-radius: 10px;
   border: none;
@@ -161,12 +238,34 @@ button:hover {
     font-size: 1.8rem;
   }
 
-  button {
-    width: 100%;
+  .mode-selector button,
+  .game-buttons button,
+  .custom-input-container button,
+  .start-button {
+    width: 100%; /* solo estos botones ocupan todo el ancho */
   }
 
   .game p {
     font-size: 1.3rem;
     min-height: 70px;
   }
+  .back-top {
+  background: rgba(255, 255, 255, 0.2); /* fondo semitransparente */
+  color: inherit;
+  font-size: 1.2rem;
+  padding: 6px 10px; /* tamaño compacto */
+  border: none;
+  border-radius: 8px; /* redondeado */
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* sombra ligera */
 }
+
+.back-top:hover {
+  background: rgba(255, 255, 255, 0.35); /* más visible al pasar el ratón */
+  transform: scale(1.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* sombra más intensa */
+}
+
+}
+
