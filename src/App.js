@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModeSelector from "./components/ModeSelector";
 import Game from "./components/Game";
 import phrases from "./data/phrases.json";
@@ -7,9 +7,18 @@ import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [mode, setMode] = useState(null);
-  const [inputValue, setInputValue] = useState(""); // Hook dentro del componente
+  const [inputValue, setInputValue] = useState("");
   const [customPhrases, setCustomPhrases] = useState([]);
   const [currentPhrases, setCurrentPhrases] = useState([]);
+
+  // Inicializar AdSense cuando el componente se monte
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
 
   const resetMode = () => {
     setMode(null);
@@ -79,7 +88,6 @@ function App() {
             </button>
           </div>
 
-          {/* Botón de volver a elegir modo */}
           <button className="back-button" onClick={resetMode}>
             ← Volver a elegir modo
           </button>
@@ -103,6 +111,16 @@ function App() {
           </button>
         </>
       )}
+
+      {/* BLOQUE ADSENSE FINAL */}
+      <div style={{ marginTop: "30px", textAlign: "center" }}>
+        <ins className="adsbygoogle"
+             style={{ display: 'block' }}
+             data-ad-client="ca-pub-4433584825298873"
+             data-ad-slot="6606420658"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
     </div>
   );
 }
