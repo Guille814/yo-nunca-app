@@ -3,6 +3,7 @@ import ModeSelector from "./components/ModeSelector";
 import Game from "./components/Game";
 import phrases from "./data/phrases.json";
 import "./index.css";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [mode, setMode] = useState(null);
