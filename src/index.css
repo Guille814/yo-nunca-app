@@ -6,7 +6,7 @@
 }
 
 /* Contenedor completo */
-body, html {
+html, body {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
@@ -16,24 +16,24 @@ body, html {
   display: flex;
   justify-content: center; /* centra horizontal */
   align-items: center;     /* centra vertical */
+  overflow-x: hidden;      /* evita que nada empuje a los lados */
 }
 
 /* Caja tipo app */
 .app {
   display: flex;
   flex-direction: column;
-  align-items: center; /* centra contenido interno */
-  justify-content: center; /* centra vertical si hay espacio */
-  
-  width: 90%;
-  max-width: 400px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;         /* siempre 100% en móvil */
+  max-width: 400px;    /* límite en escritorio */
   padding: 30px;
   background: rgba(0,0,0,0.3);
   border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   text-align: center;
 }
-
 
 /* Titular */
 h1 {
@@ -77,10 +77,14 @@ button:hover {
 .game p {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  min-height: 60px;
+  min-height: 80px;
+  width: 100%;              /* ocupa siempre todo el ancho de la caja */
+  overflow-wrap: anywhere;  /* fuerza salto en palabras largas */
+  white-space: normal;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 /* Responsive */
@@ -95,5 +99,6 @@ button:hover {
 
   .game p {
     font-size: 1.3rem;
+    min-height: 70px;
   }
 }
