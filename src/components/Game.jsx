@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Game({ mode, phrases }) {
+export default function Game({ phrases }) {
   const [current, setCurrent] = useState(null);
 
   const nextPhrase = () => {

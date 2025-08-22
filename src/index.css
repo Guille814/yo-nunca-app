@@ -111,6 +111,50 @@ button:hover {
   text-align: center;
 }
 
+.custom-input-container {
+  display: flex;
+  gap: 10px;          /* separación entre input y botón */
+  margin-bottom: 20px; /* espacio debajo del input */
+}
+
+.custom-input-container input {
+  flex: 1;             /* ocupa el máximo espacio disponible */
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.custom-input-container button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #6ee7b7;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.custom-input-container button:hover {
+  transform: scale(1.05);
+}
+
+.start-button {
+  padding: 12px 20px;
+  border-radius: 12px;
+  background-color: #34d399;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.start-button:disabled {
+  background-color: rgba(52, 211, 153, 0.5);
+  cursor: not-allowed;
+}
+
+
 /* Responsive */
 @media (max-width: 500px) {
   h1 {
