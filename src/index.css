@@ -57,6 +57,24 @@ button:hover {
 }
 
 /* Botones de modo */
+/* Contenedor de modos */
+.mode-selector {
+  display: flex;
+  flex-direction: column; /* apilados */
+  gap: 15px; /* separación entre botones */
+  width: 100%; /* ocupa todo el ancho de la app */
+  max-width: 300px; /* ancho máximo en escritorio */
+  align-items: center; /* centra los botones horizontalmente */
+}
+
+/* Botones de modo */
+.mode-selector button {
+  width: 100%; /* fuerza que los botones ocupen todo el ancho del contenedor */
+  max-width: 300px; /* opcional: evita que sean demasiado grandes */
+}
+
+
+/* Botones de modo */
 .mode-selector button:nth-child(1) {
   background-color: #ffb347;
   color: #333;
@@ -65,6 +83,12 @@ button:hover {
 .mode-selector button:nth-child(2) {
   background-color: #ff5e62;
   color: #fff;
+}
+
+/* Botón de mezclar (si lo añadiste) */
+.mode-selector button:nth-child(3) {
+  background-color: #6eff62;
+  color: #333;
 }
 
 /* Botón de volver */

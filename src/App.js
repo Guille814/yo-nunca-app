@@ -5,10 +5,16 @@ import phrases from "./data/phrases.json";
 import "./index.css";
 
 function App() {
-
   const [mode, setMode] = useState(null);
 
   const resetMode = () => setMode(null);
+
+  const getPhrasesForMode = () => {
+    if (mode === "mix") {
+      return [...phrases.normal, ...phrases.hot];
+    }
+    return phrases[mode];
+  };
 
   return (
     <div className="app">
@@ -18,7 +24,7 @@ function App() {
 
       {mode && (
         <>
-          <Game mode={mode} phrases={phrases[mode]} />
+          <Game mode={mode} phrases={getPhrasesForMode()} />
           <button className="back-button" onClick={resetMode}>
             ← Volver a elegir modo
           </button>
