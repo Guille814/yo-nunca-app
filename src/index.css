@@ -270,6 +270,70 @@ button:hover {
   /* más grande */
 }
 
+.grupo-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  gap: 10px;
+}
+
+.grupo-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grupo-name {
+  color: #fff;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grupo-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grupo-actions input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.grupo-actions button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.grupo-actions button:nth-child(2) {
+  background-color: #10b981;
+  /* botón añadir */
+  color: #fff;
+}
+
+.grupo-actions button:nth-child(3) {
+  background-color: #ef4444;
+  /* botón borrar */
+  color: #fff;
+}
+
+.grupo-actions button:hover {
+  transform: scale(1.05);
+}
 
 /* Responsive */
 @media (max-width: 500px) {
@@ -351,4 +415,16 @@ button:hover {
     /* más grande */
   }
 
+  .grupo-card {
+    padding: 12px;
+  }
+
+  .grupo-actions input {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .grupo-actions button {
+    padding: 6px 10px;
+  }
 }

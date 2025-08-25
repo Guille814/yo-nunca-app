@@ -10,6 +10,7 @@ export default function PlayerWrapper({ resetMode }) {
   const [remaining, setRemaining] = useState([]);
   const [inputPhrase, setInputPhrase] = useState("");
   const [started, setStarted] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (!partidaId) return;
@@ -20,19 +21,24 @@ export default function PlayerWrapper({ resetMode }) {
       if (!data) return;
 
       setFrases(data.frases || []);
-      if (!started) setRemaining(data.frases || []);
+
+      // Inicializamos remaining solo una vez
+      if (!initialized && data.frases?.length > 0) {
+        setRemaining(data.frases);
+        setInitialized(true);
+      }
+
       if (data.started) setStarted(true);
       if (data.currentPhrase) setCurrent(data.currentPhrase);
     });
 
     return () => unsubscribe();
-  }, [partidaId, started]);
+  }, [partidaId, initialized]);
 
   const addPhrase = async () => {
     const newPhrase = inputPhrase.trim();
     if (!newPhrase) return;
 
-    // Evitar frases repetidas
     if (frases.some(f => f.toLowerCase().trim() === newPhrase.toLowerCase())) {
       alert("Esa frase ya ha sido añadida");
       return;
@@ -41,6 +47,7 @@ export default function PlayerWrapper({ resetMode }) {
     const partidaRef = doc(db, "partidas", partidaId);
     await updateDoc(partidaRef, { frases: arrayUnion(newPhrase) });
     setInputPhrase("");
+    setRemaining(prev => [...prev, newPhrase]); // Añade también a remaining
   };
 
   const nextPhrase = async () => {
@@ -48,6 +55,7 @@ export default function PlayerWrapper({ resetMode }) {
       setCurrent("¡Se acabaron las frases! 🎉");
       return;
     }
+
     const index = Math.floor(Math.random() * remaining.length);
     const phrase = remaining[index];
     setCurrent(phrase);
@@ -58,42 +66,47 @@ export default function PlayerWrapper({ resetMode }) {
   };
 
   return (
-    <div style={{ textAlign: "center", maxWidth: "400px", margin: "0 auto", paddingTop: "20px" }}>
-      <h2>Jugador conectado a la partida {partidaId}</h2>
+    <div className="app">
+      <h1 className="subtitle-white">Partida {partidaId}</h1>
 
       {!started && (
         <>
-          <p>Añade tus frases antes de empezar:</p>
-          <input
-            type="text"
-            placeholder="Escribe un 'Yo Nunca...'"
-            value={inputPhrase}
-            onChange={(e) => setInputPhrase(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") addPhrase(); }}
-            style={{ width: "100%", padding: "10px", borderRadius: "10px", marginBottom: "10px" }}
-          />
-          <button onClick={addPhrase} style={{ padding: "10px 20px", borderRadius: "10px" }}>Añadir frase</button>
+          <p className="subtitle-white">Añade tus frases antes de empezar:</p>
+          <div className="custom-input-container">
+            <input
+              className="custom-input"
+              type="text"
+              placeholder="Escribe un 'Yo Nunca...'"
+              value={inputPhrase}
+              onChange={(e) => setInputPhrase(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") addPhrase(); }}
+            />
+            <button onClick={addPhrase}>Añadir</button>
+          </div>
+          <p className="subtitle-white">Frases totales: {frases.length}</p>
         </>
       )}
 
       {started && (
         <>
-          <p style={{ fontSize: "1.2rem", minHeight: "60px" }}>{current || "Esperando que el host pase las frases..."}</p>
-          <button onClick={nextPhrase} style={{ padding: "12px 20px", borderRadius: "12px" }}>Siguiente frase</button>
+          <p className="game">{current || "Esperando que el host pase las frases..."}</p>
+          <div className="game-buttons">
+            <button onClick={nextPhrase}>Siguiente frase</button>
+          </div>
 
-          <div style={{ marginTop: "20px" }}>
+          <div className="custom-input-container">
             <input
+              className="custom-input"
               type="text"
               placeholder="Añade otra frase"
               value={inputPhrase}
               onChange={(e) => setInputPhrase(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") addPhrase(); }}
-              style={{ width: "100%", padding: "10px", borderRadius: "10px", marginBottom: "10px" }}
             />
-            <button onClick={addPhrase} style={{ padding: "10px 20px", borderRadius: "10px" }}>Añadir frase</button>
+            <button onClick={addPhrase}>Añadir</button>
           </div>
 
-          <p>Frases totales: {frases.length}</p>
+          <p className="subtitle-white">Frases totales: {frases.length}</p>
         </>
       )}
     </div>

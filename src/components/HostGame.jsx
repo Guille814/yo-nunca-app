@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { doc, updateDoc, onSnapshot, serverTimestamp, deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, serverTimestamp, deleteDoc, onSnapshot } from "firebase/firestore";
 
 export default function HostGame({ partidaId }) {
   const [frases, setFrases] = useState([]);
@@ -8,6 +8,7 @@ export default function HostGame({ partidaId }) {
   const [history, setHistory] = useState([]);
   const [current, setCurrent] = useState(null);
   const [showContinue, setShowContinue] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (!partidaId) return;
@@ -18,26 +19,28 @@ export default function HostGame({ partidaId }) {
       if (!data) return;
 
       setFrases(data.frases || []);
-      setRemaining(data.frases || []);
+
+      // Inicializar remaining solo al cargar la partida por primera vez
+      if (!initialized) {
+        setRemaining(data.frases || []);
+        setInitialized(true);
+      }
 
       const ultima = data.ultimaFrase?.toDate();
       if (!ultima) return;
 
       const now = new Date();
-      const diffMs = now - ultima;
-      const diffMin = diffMs / (1000 * 60);
+      const diffMin = (now - ultima) / (1000 * 60);
 
-      // Mostrar botón si ha pasado 60 min
       setShowContinue(diffMin >= 60);
 
-      // Borrar partida automáticamente si estaba pendiente y han pasado 65 min
       if (data.status === "pendiente" && diffMin >= 65) {
         deleteDoc(partidaRef);
       }
     });
 
     return () => unsubscribe();
-  }, [partidaId]);
+  }, [partidaId, initialized]);
 
   const nextPhrase = async () => {
     if (remaining.length === 0) {
@@ -48,11 +51,10 @@ export default function HostGame({ partidaId }) {
     const randomIndex = Math.floor(Math.random() * remaining.length);
     const phrase = remaining[randomIndex];
 
-    if (current) setHistory((prev) => [...prev, current]);
+    if (current) setHistory(prev => [...prev, current]);
     setCurrent(phrase);
-    setRemaining((prev) => prev.filter((_, i) => i !== randomIndex));
+    setRemaining(prev => prev.filter((_, i) => i !== randomIndex));
 
-    // Actualizamos la hora de la última frase en Firestore
     const partidaRef = doc(db, "partidas", partidaId);
     await updateDoc(partidaRef, { ultimaFrase: serverTimestamp() });
   };
@@ -60,8 +62,8 @@ export default function HostGame({ partidaId }) {
   const prevPhrase = () => {
     if (history.length === 0) return;
     const last = history[history.length - 1];
-    setHistory((prev) => prev.slice(0, -1));
-    if (current) setRemaining((prev) => [current, ...prev]);
+    setHistory(prev => prev.slice(0, -1));
+    if (current) setRemaining(prev => [current, ...prev]);
     setCurrent(last);
   };
 

@@ -88,8 +88,8 @@ function AppWrapper() {
         <>
           <ModeSelector setMode={setMode} />
           <div className="extra-modes">
-            <button onClick={() => setMode("collect")}>Modo Personalizado</button>
-            <button onClick={() => setMode("online")}>Modo Online</button>
+            <button onClick={() => setMode("collect")}>Modo Personalizado ✏️</button>
+            <button onClick={() => setMode("online")}>Modo Online 🌐</button>
           </div>
         </>
       )}
