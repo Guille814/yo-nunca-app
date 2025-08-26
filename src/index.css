@@ -335,6 +335,70 @@ button:hover {
   transform: scale(1.05);
 }
 
+/* Estilos para los botones principales */
+.btn-yonunca,
+.btn-quien {
+  width: 280px;
+  /* Mismo ancho fijo */
+  height: 80px;
+  /* Mismo alto fijo */
+  padding: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón "Yo Nunca" */
+.btn-yonunca {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffcc70);
+}
+
+.btn-yonunca:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 25px rgba(255, 65, 108, 0.7);
+}
+
+/* Botón "Quién es más probable" */
+.btn-quien {
+  background: linear-gradient(135deg, #6a11cb, #2575fc, #ff00cc);
+}
+
+.btn-quien:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 25px rgba(106, 17, 203, 0.7);
+}
+
+/* Contenedor de modos de Quién es más probable */
+.quien-mode-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+  /* mismo ancho que otros botones */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.quien-mode-buttons button {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 15px;
+  text-align: center;
+}
+
+
+
 /* Responsive */
 @media (max-width: 500px) {
   h1 {
@@ -427,4 +491,76 @@ button:hover {
   .grupo-actions button {
     padding: 6px 10px;
   }
+
+  /* Estilos para los botones principales */
+  .btn-yonunca,
+  .btn-quien {
+    width: 280px;
+    /* Mismo ancho fijo */
+    height: 80px;
+    /* Mismo alto fijo */
+    padding: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Botón "Yo Nunca" */
+  .btn-yonunca {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffcc70);
+  }
+
+  .btn-yonunca:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(255, 65, 108, 0.7);
+  }
+
+  /* Botón "Quién es más probable" */
+  .btn-quien {
+    background: linear-gradient(135deg, #6a11cb, #2575fc, #ff00cc);
+  }
+
+  .btn-quien:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(106, 17, 203, 0.7);
+  }
+
+  /* Contenedor de modos de Quién es más probable */
+  .quien-mode-buttons {
+    display: flex;
+    flex-direction: column;
+    /* columna vertical */
+    gap: 16px;
+    /* separación uniforme */
+    width: 100%;
+    max-width: 300px;
+    /* limita ancho máximo */
+    align-items: stretch;
+    /* para que los botones ocupen todo el ancho */
+    margin-bottom: 20px;
+  }
+
+  /* Botones dentro de este contenedor */
+  .quien-mode-buttons button {
+    width: 100%;
+    /* ancho completo del contenedor */
+    padding: 14px 0;
+    /* altura uniforme */
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 15px;
+    text-align: center;
+    box-sizing: border-box;
+    /* asegura que padding no afecte ancho */
+  }
+
+
 }
