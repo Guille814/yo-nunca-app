@@ -126,6 +126,13 @@ function AppWrapper() {
             >
               🌐 Modo Online
             </button>
+            {/* Botón volver separado */}
+            <button
+              className="w-full mt-6 px-6 py-3 rounded-xl text-white font-bold bg-gray-700 hover:scale-105 transition-transform"
+              onClick={resetMode}
+            >
+              ⬅️ Volver
+            </button>
           </div>
         </>
       )}
